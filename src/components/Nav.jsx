@@ -1,18 +1,18 @@
 function Nav() {
   return (
     <nav className="nav">
-        <div classNameName="logo">
-            <img classNameName="logo_img"
+        <div className="logo">
+            <img className="logo__img"
             src="/fes-logo.png"
             alt="Flix logo"
             />
-            <div classNameName="logo_title">
+            <div className="logo__title">
             <span>Simplified </span>Flix
             </div>
         </div>
-        <form classNameName="search-form" id="searchForm">
+        <form className="search-form" id="searchForm">
             <div className="search-form__group">
-                <label for="searchInput"></label>
+                <label htmlFor="searchInput"></label>
                 <input 
                 className="search-form__input"
                 type="text"

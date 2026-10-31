@@ -85,7 +85,8 @@ nav:has(.search-form__input:hover) {
   justify-self: flex-start;
 }
 .logo__img {
-  width: 34px;
+  width: 34px !important;
+  height: auto;
 }
 
 .logo__title {
