@@ -3,10 +3,44 @@ import Nav from "./components/Nav"
 import MovieCard from './components/ui/MovieCard'
 import Footer from './components/Footer'
 
-function App({ movies, loading, error }) {
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
+
+  async function handleSearch(e) {
+        e.preventDefault();
+
+        if (!search.trim()) return;
+
+        setLoading(true)
+        setError("");
+
+        try {
+            const response = await fetch(
+            `https://www.omdbapi.com/?apikey=${import.meta.env.VITE_OMDB_API_KEY}&s=${encodeURIComponent(search)}`
+            );
+
+            const data = await response.json();
+
+            if (data.Response === "True") {
+                setMovies(data.Search);
+            } else {
+                setMovies([]);
+                setError(data.Error || "No movies found.");
+            }
+        } catch (error) {
+            setError("Something went wrong. Please try again.");
+            setMovies([]);
+        } finally {
+            setLoading(false);
+        }
+    }
+
   return (
     <>
-      <Nav />
+      <Nav onSearch={handleSearch} />
       <main className="main">
         <div className="controls">
           <p id="resultsInfo" 

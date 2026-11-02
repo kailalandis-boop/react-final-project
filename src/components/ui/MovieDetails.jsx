@@ -1,4 +1,4 @@
-function MovieDetails( movie) {
+function MovieDetails({ movie }) {
   return (
     <div className="movie-details__container">
         <div className="movie-details__back">
@@ -10,7 +10,7 @@ function MovieDetails( movie) {
         <div className="movie-details__content">
             <div className="movie-details__poster--wrapper">
                 <img 
-                    alt="{movie.Title}" 
+                    alt={movie.Title} 
                     className="movie-details__poster" 
                     src={
                       movie.Poster !== "N/A"
@@ -28,7 +28,7 @@ function MovieDetails( movie) {
                     <p className="movie-details__rating">
                         <strong>Rating:</strong> {movie.imdbRating}/10
                     </p><p className="movie-details__released">
-                        <strong>Released:</strong> 04 May 2012
+                        <strong>Released:</strong> {movie.Released}
                     </p>
                 </div>
             </div>
