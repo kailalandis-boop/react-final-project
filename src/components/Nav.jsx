@@ -1,8 +1,14 @@
 "use client"
 import { useState } from "react"
 
-function Nav() {
-    const [search, setSearch] = useState("");
+function Nav({ onSearch }) {
+  const [search, setSearch] = useState("");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!search.trim()) return;
+    onSearch(search.trim());
+  }
 
   return (
     <nav className="nav">
@@ -15,7 +21,7 @@ function Nav() {
             <span>Simplified </span>Flix
             </div>
         </div>
-        <form onSubmit={handleSearch}
+        <form onSubmit={handleSubmit}
         className="search-form" id="searchForm">
             <div className="search-form__group">
                 <label htmlFor="searchInput"></label>
@@ -36,9 +42,9 @@ function Nav() {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round">
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round">
                         <circle cx="11" cy="11" r="7"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>

@@ -17,6 +17,15 @@ body {
   background-position: center;
 }
 
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+}
+
 /* this property will allow us to control the angle of the gradient of the navbar */
 @property --nav-angle {
   syntax: "<angle>"; /* declares that valid values for this prop must be a css angle (e.g 135deg, 2rad)*/
@@ -174,6 +183,8 @@ main {
   border-radius: 16px;
   font-family: "Geist", sans-serif;
   margin-left: 8px;
+  outline: none;
+  box-shadow: none;
 }
 
 .movies-grid {
@@ -188,6 +199,11 @@ main {
 .movie-card {
   width: 100%;
   margin: 0 auto;
+}
+
+.movie-card a {
+  text-decoration: none;
+  color: inherit;
 }
 
 .movie-card__img {
@@ -205,11 +221,13 @@ main {
 .movie-card__title {
   font-size: 16px;
   margin: 10px 0 5px 0;
+  text-decoration: none;
 }
 
 .movie-card__year {
   margin: 0;
   color: #666;
+  text-decoration: none;
 }
 
 /* Placeholder for broken images */
@@ -264,6 +282,169 @@ main {
   width: 40%;
 }
 
+/* Shared skeleton shimmer */
+.movie-details__poster--skeleton,
+.movie-details__title--skeleton,
+.movie-details__year--skeleton,
+.movie-details__rating--skeleton,
+.movie-details__released--skeleton,
+.movie-details__heading--skeleton,
+.movie-details__text--skeleton,
+.movie-details__back-link--skeleton {
+  background: linear-gradient(
+    90deg,
+    #e0e0e0 25%,
+    #f0f0f0 50%,
+    #e0e0e0 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+/* Poster */
+.movie-details__poster--skeleton {
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 2 / 3;
+  border-radius: 12px;
+}
+
+/* Title */
+.movie-details__title--skeleton {
+  width: 80%;
+  height: 32px;
+  margin-bottom: 20px;
+}
+
+/* Year, rating, released */
+.movie-details__year--skeleton,
+.movie-details__rating--skeleton,
+.movie-details__released--skeleton {
+  height: 16px;
+  margin-bottom: 14px;
+}
+
+.movie-details__year--skeleton {
+  width: 40%;
+}
+
+.movie-details__rating--skeleton {
+  width: 30%;
+}
+
+.movie-details__released--skeleton {
+  width: 55%;
+}
+
+/* Section headings */
+.movie-details__heading--skeleton {
+  width: 100px;
+  height: 20px;
+  margin-bottom: 12px;
+}
+
+/* Section text */
+.movie-details__text--skeleton {
+  width: 90%;
+  height: 16px;
+  margin-bottom: 12px;
+}
+
+/* Back link */
+.movie-details__back-link--skeleton {
+  width: 70px;
+  height: 20px;
+  margin-bottom: 20px;
+}
+
+.movie-details__container {
+    background-color: #ffffff80;
+    border-radius: 12px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px;
+    box-shadow: 4px 4px 20px #0000001a;
+}
+
+.movie-details__back {
+    margin-bottom: 20px;
+}
+
+.movie-details__back-link {
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+    transition: color .3s;
+    text-decoration: none;
+}
+
+.movie-details__content {
+    grid-template-columns: 1fr 2fr;
+    gap: 40px;
+    margin-top: 20px;
+    display: grid;
+}
+
+.movie-details__poster--wrapper {
+    flex-direction: column;
+    gap: 20px;
+    display: flex;
+}
+
+.movie-details__poster {
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 12px;
+    width: 100%;
+}
+
+.movie-details__info {
+    flex-direction: column;
+    gap: 10px;
+    display: flex;
+}
+
+.movie-details__title {
+    color: #333;
+    margin: 0;
+    font-size: 24px;
+}
+
+.movie-details__year, 
+.movie-details__rating, 
+.movie-details__released {
+    color: #444;
+    margin: 0;
+    font-size: 14px;
+}
+
+.movie-details__text--wrapper {
+    flex-direction: column;
+    gap: 20px;
+    display: flex;
+}
+
+.movie-details__detail {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 15px;
+}
+
+.movie-details__detail h3 {
+    color: #333;
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.movie-details__detail p {
+    color: #444;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -300,4 +481,16 @@ footer {
   .search-form__input {
     width: 320px;
   }
+}
+
+@media (width <= 768px) {
+    .movie-details__content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .movie-details__poster--wrapper {
+      max-width: 300px;
+      margin: 0 auto;
+    }
 }
