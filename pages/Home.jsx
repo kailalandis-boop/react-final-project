@@ -5,12 +5,18 @@ import Footer from '../src/components/Footer'
 import { useState, useEffect, useCallback, useMemo } from 'react'
 
 function Home() {
-  const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showSkeleton, setShowSkeleton] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("Avengers");
-  const [sortOrder, setSortOrder] = useState("default");
+  const [movies, setMovies] = useState(() => {
+    return JSON.parse(sessionStorage.getItem("homeMovies") || "[]");
+  });
+  const [searchQuery, setSearchQuery] = useState(() => {
+    return sessionStorage.getItem("homeSearchQuery") || "Avengers";
+  });
+  const [sortOrder, setSortOrder] = useState(() => {
+    return sessionStorage.getItem("homeSortOrder") || "default";
+  });
   const delay = (ms) =>
     new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -50,9 +56,19 @@ function Home() {
 
       if (data.Response === "True") {
         setMovies(data.Search);
+
+        sessionStorage.setItem(
+          "homeMovies",
+          JSON.stringify(data.Search)
+        );
+
+        sessionStorage.setItem("homeSearchQuery", search);
       } else {
         setMovies([]);
         setError(data.Error || "No movies found.");
+
+        sessionStorage.setItem("homeMovies", JSON.stringify([]));
+        sessionStorage.setItem("homeSearchQuery", search);
       }
     } catch (error) {
       setError("Something went wrong. Please try again.");
@@ -64,7 +80,14 @@ function Home() {
 
   // Load default movies when the page opens
   useEffect(() => {
-    handleSearch("Avengers");
+    const navigation = performance.getEntriesByType("navigation")[0];
+
+    if (navigation?.type === "reload") {
+      sessionStorage.removeItem("homeMovies");
+      sessionStorage.removeItem("homeSearchQuery");
+      sessionStorage.removeItem("homeSortOrder");
+      handleSearch("Avengers");
+    }
   }, [handleSearch]);
 
   const sortedMovies = useMemo(() => {
@@ -111,7 +134,10 @@ function Home() {
             <select
               id="sortSelect"
               value={sortOrder}
-              onChange={(e) => setSortOrder(e.target.value)}
+              onChange={(e) => {
+                setSortOrder(e.target.value);
+                sessionStorage.setItem("homeSortOrder", e.target.value);
+              }}
             >
             <option value="default">Default</option>
             <option value="a-z">A - Z</option>
