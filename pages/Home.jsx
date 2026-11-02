@@ -4,6 +4,14 @@ import MovieCard from '../src/components/ui/MovieCard'
 import Footer from '../src/components/Footer'
 import { useState, useEffect, useCallback, useMemo } from 'react'
 
+const navigation = performance.getEntriesByType("navigation")[0];
+
+if (navigation?.type === "reload") {
+  sessionStorage.removeItem("homeMovies");
+  sessionStorage.removeItem("homeSearchQuery");
+  sessionStorage.removeItem("homeSortOrder");
+}
+
 function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -80,12 +88,7 @@ function Home() {
 
   // Load default movies when the page opens
   useEffect(() => {
-    const navigation = performance.getEntriesByType("navigation")[0];
-
-    if (navigation?.type === "reload") {
-      sessionStorage.removeItem("homeMovies");
-      sessionStorage.removeItem("homeSearchQuery");
-      sessionStorage.removeItem("homeSortOrder");
+    if (sessionStorage.getItem("homeMovies") === null) {
       handleSearch("Avengers");
     }
   }, [handleSearch]);
