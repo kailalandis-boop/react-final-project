@@ -1,10 +1,10 @@
 function MovieCard({ movie }) {
   return (
     <div key={movie.imdbID} className="movie-card">
-        <a href="/tt0848228" 
+        <a href={`/movie/${movie.imdbID}`} 
         data-discover="true">
             <img 
-                alt="{movie.Title}" 
+                alt={movie.Title} 
                 className="movie-card__img" 
                 src={
                 movie.Poster !== "N/A"

@@ -7,6 +7,20 @@ function Nav() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    async function GET(request) {
+        const { searchParams } = new URL(request.url);
+
+        const search = searchParams.get("search");
+
+        if (!search) {
+            return Response.json({ movies: [] });
+    }
+
+        const response = await fetch(
+            `https://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=${encodeURIComponent(search)}`
+        );
+    }
+
     async function handleSearch(e) {
         e.preventDefault();
 
