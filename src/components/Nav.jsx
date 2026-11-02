@@ -1,4 +1,41 @@
+"use client"
+import { useState } from "react"
+
 function Nav() {
+    const [search, setSearch] = useState("");
+    const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    async function handleSearch(e) {
+        e.preventDefault();
+
+        if (!search.trim()) return;
+
+        setLoading(true)
+        setError("");
+
+        try {
+            const response = await fetch(
+            `/api/movies?search=${encodeURIComponent(search)}`
+            );
+
+            const data = await response.json();
+
+            if (data.Response === "True") {
+                setMovies(data.Search);
+            } else {
+                setMovies([]);
+                setError(data.Error || "No movies found.");
+            }
+        } catch (error) {
+            setError("Something went wrong. Please try again.");
+            setMovies([]);
+        } finally {
+            setLoading(false);
+        }
+    }
+
   return (
     <nav className="nav">
         <div className="logo">
@@ -10,13 +47,16 @@ function Nav() {
             <span>Simplified </span>Flix
             </div>
         </div>
-        <form className="search-form" id="searchForm">
+        <form onSubmit={handleSearch}
+        className="search-form" id="searchForm">
             <div className="search-form__group">
                 <label htmlFor="searchInput"></label>
                 <input 
                 className="search-form__input"
                 type="text"
                 id="searchInput"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search movies..."
                 required
                 />

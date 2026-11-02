@@ -3,7 +3,7 @@ import Nav from "./components/Nav"
 import MovieCard from './components/ui/MovieCard'
 import Footer from './components/Footer'
 
-function App() {
+function App({ movies, loading, error }) {
   return (
     <>
       <Nav />
@@ -23,16 +23,12 @@ function App() {
             </select>
           </div>
         </div>
+        {loading && <p>Loading movies...</p>}
+        {error && <p>{error}</p>}
         <div className="movies-grid" id="moviesGrid">
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
-          <MovieCard />
+          {movies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
         </div>
       </main>
       <Footer />
